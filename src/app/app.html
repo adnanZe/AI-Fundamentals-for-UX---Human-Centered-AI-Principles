@@ -1,11 +1,28 @@
 <header class="header">
   <h1>🤖 Human-Centered AI Principles</h1>
   <p class="tagline">Understanding the mindset: Building AI that serves people, not the other way around</p>
+
+  <nav class="nav-tabs">
+    <button class="tab-button" [class.active]="selectedExample() === 'mindset'" (click)="selectExample('mindset')">
+      💭 Human-Centered Mindset
+    </button>
+    <button class="tab-button" [class.active]="selectedExample() === 'recruitment'"
+      (click)="selectExample('recruitment')">
+      ⚖️ Value Alignment in AI Design
+    </button>
+  </nav>
 </header>
 
 <main class="container">
+  @if (selectedExample() === 'mindset') {
   <div class="examples-grid">
     <app-wrong-example />
     <app-right-example />
   </div>
+  } @else {
+  <div class="examples-grid">
+    <app-recruitment-wrong />
+    <app-recruitment-right />
+  </div>
+  }
 </main>

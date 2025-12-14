@@ -1,0 +1,66 @@
+<div class="example-card wrong">
+    <div class="card-header">
+        <div class="badge wrong-badge">❌</div>
+        <h2>AI-Driven Hiring: Optimizing for Speed</h2>
+        <p class="subtitle">Focus on efficiency over fairness</p>
+    </div>
+
+    <div class="recruitment-container">
+        <div class="config-panel">
+            <h3>AI Configuration</h3>
+
+            <div class="config-group">
+                <label>Efficiency Weight: {{ efficencyWeight() }}%</label>
+                <input type="range" min="0" max="100" [ngModel]="efficencyWeight()"
+                    (ngModelChange)="efficencyWeight.set($event)" class="config-slider" />
+            </div>
+
+            <div class="config-group">
+                <label>Diversity Weight: {{ diversityWeight() }}%</label>
+                <input type="range" min="0" max="100" [ngModel]="diversityWeight()"
+                    (ngModelChange)="diversityWeight.set($event)" class="config-slider" />
+            </div>
+
+            <div class="config-group">
+                <label>Data Privacy Level</label>
+                <select [(ngModel)]="privacyLevel" class="config-select">
+                    @for (option of privacyOptions; track option.value) {
+                    <option [value]="option.value">{{ option.label }}</option>
+                    }
+                </select>
+            </div>
+
+            <button (click)="processApplicants()" [disabled]="isProcessing()" class="process-button">
+                @if (isProcessing()) {
+                Processing...
+                } @else {
+                Process 100 Applicants
+                }
+            </button>
+        </div>
+
+        @if (candidates().length > 0) {
+        <div class="results-panel">
+            <h3>Processing Results</h3>
+            @for (candidate of candidates(); track candidate.name) {
+            <div class="candidate-card" [class.rejected]="candidate.rejected">
+                <div class="candidate-header">
+                    <span class="candidate-name">{{ candidate.name }}</span>
+                    <span class="candidate-score">Score: {{ candidate.score }}</span>
+                </div>
+                <div class="candidate-status">
+                    @if (candidate.rejected) {
+                    <span class="status-rejected">❌ REJECTED</span>
+                    } @else {
+                    <span class="status-accepted">✅ ACCEPTED</span>
+                    }
+                </div>
+                <div class="candidate-reason">{{ candidate.reason }}</div>
+                <div class="technical-details">{{ candidate.technicalDetails }}</div>
+            </div>
+            }
+        </div>
+        }
+    </div>
+
+</div>
