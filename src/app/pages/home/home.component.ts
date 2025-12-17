@@ -163,31 +163,13 @@ export class HomeComponent {
       principles: ['Transparency', 'Mental Models', 'Trust Building', 'Feedback Loops'],
     },
     {
-      title: 'Smart Content Suggestions',
+      title: 'AI Action History + Selective Undo',
       description:
-        'See how AI provides contextual suggestions for content creation with confidence indicators and explanations.',
-      icon: '🎯',
-      route: '/content-suggestions',
-      status: 'coming-soon',
-      principles: ['AI Capabilities', 'Safety Nets', 'Human-Centered AI'],
-    },
-    {
-      title: 'Intelligent Search & Filter',
-      description:
-        'Explore AI-powered search that understands intent and provides relevant results with transparent ranking.',
-      icon: '🔍',
-      route: '/smart-search',
-      status: 'coming-soon',
-      principles: ['Transparency', 'User Agency', 'Mental Models'],
-    },
-    {
-      title: 'Adaptive Recommendations',
-      description:
-        'Discover how AI learns from user preferences while respecting privacy and providing control over recommendations.',
-      icon: '🎨',
-      route: '/recommendations',
-      status: 'coming-soon',
-      principles: ['Customization', 'Feedback Loops', 'Privacy'],
+        'Track all AI actions with detailed history and selectively undo any specific action for precise control.',
+      icon: '📋',
+      route: '/action-history',
+      status: 'available',
+      principles: ['Safety Nets', 'User Agency', 'Transparency', 'Trust Building'],
     },
   ];
 }

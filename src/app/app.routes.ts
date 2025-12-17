@@ -20,4 +20,9 @@ export const routes: Routes = [
         (m) => m.AI_LOADING_STATES_ROUTES
       ),
   },
+  {
+    path: 'action-history',
+    loadChildren: () =>
+      import('./features/undo-timeline/action-history.routes').then((m) => m.actionHistoryRoutes),
+  },
 ];
