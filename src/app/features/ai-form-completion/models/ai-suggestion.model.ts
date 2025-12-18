@@ -1,6 +1,7 @@
 export type ConfidenceLevel = 'high' | 'medium' | 'low';
 
 export interface AISuggestion {
+  id: string;
   field: string;
   suggestedText: string;
   confidence: ConfidenceLevel;

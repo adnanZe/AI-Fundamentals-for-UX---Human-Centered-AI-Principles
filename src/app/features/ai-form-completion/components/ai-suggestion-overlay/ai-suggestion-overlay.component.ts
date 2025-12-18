@@ -1,12 +1,13 @@
 import { Component, input, output, signal, computed } from '@angular/core';
 import { AISuggestion } from '../../models/ai-suggestion.model';
 import { ConfidenceIndicatorComponent } from '../confidence-indicator/confidence-indicator.component';
+import { FeedbackButtonsComponent } from '../feedback-buttons/feedback-buttons.component';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-ai-suggestion-overlay',
-  imports: [ConfidenceIndicatorComponent, FormsModule, NgClass],
+  imports: [ConfidenceIndicatorComponent, FeedbackButtonsComponent, FormsModule, NgClass],
   template: `
     <div class="ai-suggestion-overlay" [ngClass]="{ editing: isEditing() }">
       <!-- AI Badge -->
@@ -57,6 +58,15 @@ import { NgClass } from '@angular/common';
         <button type="button" class="btn btn-danger" (click)="rejectSuggestion()">✗ Reject</button>
         }
       </div>
+
+      <!-- Feedback Section -->
+      @if (!isEditing()) {
+      <app-feedback-buttons
+        [suggestionId]="suggestion().id"
+        [field]="suggestion().field"
+        (feedbackSubmitted)="onFeedbackSubmitted($event)"
+      />
+      }
     </div>
   `,
   styles: [
@@ -261,5 +271,9 @@ export class AiSuggestionOverlayComponent {
 
   toggleExplanation(): void {
     this.showExplanation.update((show) => !show);
+  }
+
+  onFeedbackSubmitted(type: string): void {
+    console.log(`Feedback ${type} submitted for suggestion ${this.suggestion().id}`);
   }
 }

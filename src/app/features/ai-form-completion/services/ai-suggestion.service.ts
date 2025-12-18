@@ -59,6 +59,7 @@ export class AiSuggestionService {
       .join(' ');
 
     return {
+      id: this.generateId(),
       field: 'name',
       suggestedText: formatted,
       confidence,
@@ -96,6 +97,7 @@ export class AiSuggestionService {
     );
 
     return {
+      id: this.generateId(),
       field: 'bio',
       suggestedText: enrichedBio.trim(),
       confidence,
@@ -141,6 +143,7 @@ export class AiSuggestionService {
     const confidence = this.calculateConfidence(currentValue.length, 5);
 
     return {
+      id: this.generateId(),
       field: 'role',
       suggestedText: suggestedRole,
       confidence,
@@ -177,6 +180,7 @@ export class AiSuggestionService {
     const confidence = this.calculateConfidence(currentValue.length, 10);
 
     return {
+      id: this.generateId(),
       field: 'hobbies',
       suggestedText,
       confidence,
@@ -188,6 +192,7 @@ export class AiSuggestionService {
 
   private defaultSuggestion(field: string, currentValue: string): AISuggestion {
     return {
+      id: this.generateId(),
       field,
       suggestedText: currentValue,
       confidence: 'low',
@@ -200,6 +205,10 @@ export class AiSuggestionService {
     if (textLength >= threshold * 2) return 'high';
     if (textLength >= threshold) return 'medium';
     return 'low';
+  }
+
+  private generateId(): string {
+    return `suggestion_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
   }
 
   private delay(ms: number): Promise<void> {
