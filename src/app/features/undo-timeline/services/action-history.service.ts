@@ -22,7 +22,7 @@ export class ActionHistoryService {
     description: string,
     field: string,
     previousValue: string,
-    newValue: string
+    newValue: string,
   ): void {
     const newAction: AIAction = {
       id: this.generateId(),

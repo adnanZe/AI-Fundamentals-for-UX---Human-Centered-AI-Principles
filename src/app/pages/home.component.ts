@@ -17,34 +17,38 @@ interface FeatureCard {
   imports: [ProfileFormComponent, ComparisonViewComponent, ActionHistoryDemoComponent],
   template: `
     @if (!selectedDemo()) {
-    <div class="home-container">
-      <div class="features-grid">
-        @for (feature of features; track feature.id) {
-        <div class="feature-card" [class.coming-soon]="feature.status === 'coming-soon'">
-          <div class="card-icon">{{ feature.icon }}</div>
-          <h2 class="card-title">{{ feature.title }}</h2>
+      <div class="home-container">
+        <div class="features-grid">
+          @for (feature of features; track feature.id) {
+            <div class="feature-card" [class.coming-soon]="feature.status === 'coming-soon'">
+              <div class="card-icon">{{ feature.icon }}</div>
+              <h2 class="card-title">{{ feature.title }}</h2>
 
-          @if (feature.status === 'available') {
-          <button (click)="selectDemo(feature.id)" class="card-button">Try Demo →</button>
-          } @else {
-          <button class="card-button disabled" disabled>Coming Soon</button>
+              @if (feature.status === 'available') {
+                <button (click)="selectDemo(feature.id)" class="card-button">Try Demo →</button>
+              } @else {
+                <button class="card-button disabled" disabled>Coming Soon</button>
+              }
+            </div>
           }
         </div>
+      </div>
+    } @else {
+      <div class="demo-wrapper">
+        <button (click)="backToHome()" class="back-button">← Back to Home</button>
+
+        @switch (selectedDemo()) {
+          @case ('ai-form-completion') {
+            <app-profile-form />
+          }
+          @case ('ai-loading-states') {
+            <app-comparison-view />
+          }
+          @case ('action-history') {
+            <app-action-history-demo />
+          }
         }
       </div>
-    </div>
-    } @else {
-    <div class="demo-wrapper">
-      <button (click)="backToHome()" class="back-button">← Back to Home</button>
-
-      @switch (selectedDemo()) { @case ('ai-form-completion') {
-      <app-profile-form />
-      } @case ('ai-loading-states') {
-      <app-comparison-view />
-      } @case ('action-history') {
-      <app-action-history-demo />
-      } }
-    </div>
     }
   `,
   styles: [

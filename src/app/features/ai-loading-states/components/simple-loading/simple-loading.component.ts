@@ -11,22 +11,22 @@ import { Component, input, output } from '@angular/core';
 
         <div class="action-area">
           @if (!isLoading()) {
-          <button class="generate-btn" (click)="onGenerate()">Generate Content</button>
+            <button class="generate-btn" (click)="onGenerate()">Generate Content</button>
           } @else {
-          <div class="loading-state">
-            <div class="spinner"></div>
-            <p class="loading-text">Loading...</p>
-            <p class="wait-message">Please wait while we process your request</p>
-          </div>
+            <div class="loading-state">
+              <div class="spinner"></div>
+              <p class="loading-text">Loading...</p>
+              <p class="wait-message">Please wait while we process your request</p>
+            </div>
           }
         </div>
 
         @if (result()) {
-        <div class="result-box">
-          <div class="result-icon">✅</div>
-          <p class="result-text">{{ result() }}</p>
-          <p class="result-time">Completed in {{ duration() }}ms</p>
-        </div>
+          <div class="result-box">
+            <div class="result-icon">✅</div>
+            <p class="result-text">{{ result() }}</p>
+            <p class="result-time">Completed in {{ duration() }}ms</p>
+          </div>
         }
       </div>
     </div>

@@ -17,7 +17,7 @@ export class AiSuggestionService {
   async generateSuggestion(
     field: keyof ProfileFormData,
     currentValue: string,
-    formContext: Partial<ProfileFormData>
+    formContext: Partial<ProfileFormData>,
   ): Promise<AISuggestion> {
     this.isGenerating.set(true);
 
@@ -33,7 +33,7 @@ export class AiSuggestionService {
   private createSuggestion(
     field: keyof ProfileFormData,
     currentValue: string,
-    context: Partial<ProfileFormData>
+    context: Partial<ProfileFormData>,
   ): AISuggestion {
     switch (field) {
       case 'name':
@@ -93,7 +93,7 @@ export class AiSuggestionService {
 
     const confidence = this.calculateConfidence(
       currentValue.length,
-      hasRole && hasHobbies ? 30 : 20
+      hasRole && hasHobbies ? 30 : 20,
     );
 
     return {

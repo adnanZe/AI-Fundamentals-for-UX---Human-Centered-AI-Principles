@@ -155,7 +155,7 @@ export class AiProcessService {
 
   private updateStepStatus(index: number, status: StepStatus): void {
     this.steps.update((steps) =>
-      steps.map((step, i) => (i === index ? { ...step, status } : step))
+      steps.map((step, i) => (i === index ? { ...step, status } : step)),
     );
   }
 

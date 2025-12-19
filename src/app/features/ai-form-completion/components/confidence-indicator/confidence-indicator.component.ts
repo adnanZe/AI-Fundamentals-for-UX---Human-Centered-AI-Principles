@@ -29,16 +29,16 @@ import { NgClass } from '@angular/common';
       </div>
 
       @if (showTooltip()) {
-      <div class="tooltip" [ngClass]="tooltipClasses()">
-        <div class="tooltip-header">
-          <span class="tooltip-icon">ℹ️</span>
-          <strong>AI Confidence Level</strong>
+        <div class="tooltip" [ngClass]="tooltipClasses()">
+          <div class="tooltip-header">
+            <span class="tooltip-icon">ℹ️</span>
+            <strong>AI Confidence Level</strong>
+          </div>
+          <p class="tooltip-text">{{ tooltipText() }}</p>
+          <div class="tooltip-stats">
+            <span>Accuracy: {{ confidencePercentage() }}%</span>
+          </div>
         </div>
-        <p class="tooltip-text">{{ tooltipText() }}</p>
-        <div class="tooltip-stats">
-          <span>Accuracy: {{ confidencePercentage() }}%</span>
-        </div>
-      </div>
       }
     </div>
   `,
@@ -122,7 +122,9 @@ import { NgClass } from '@angular/common';
       .progress-fill {
         height: 100%;
         border-radius: 2px;
-        transition: width 0.6s ease, background-color 0.3s ease;
+        transition:
+          width 0.6s ease,
+          background-color 0.3s ease;
         animation: progressLoad 1s ease-out;
       }
 

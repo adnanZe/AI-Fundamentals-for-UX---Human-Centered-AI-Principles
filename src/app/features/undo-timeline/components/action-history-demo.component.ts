@@ -70,33 +70,37 @@ import { AIAction } from '../models/action.model';
 
             <!-- Current State Display -->
             @if (historyService.hasActions()) {
-            <div class="current-state">
-              <h3 class="state-title">Current State</h3>
-              <div class="state-preview">
-                @if (currentTitle()) {
-                <div class="preview-item"><strong>Title:</strong> {{ currentTitle() }}</div>
-                } @if (currentDescription()) {
-                <div class="preview-item">
-                  <strong>Description:</strong> {{ currentDescription() }}
+              <div class="current-state">
+                <h3 class="state-title">Current State</h3>
+                <div class="state-preview">
+                  @if (currentTitle()) {
+                    <div class="preview-item"><strong>Title:</strong> {{ currentTitle() }}</div>
+                  }
+                  @if (currentDescription()) {
+                    <div class="preview-item">
+                      <strong>Description:</strong> {{ currentDescription() }}
+                    </div>
+                  }
+                  @if (currentTags()) {
+                    <div class="preview-item"><strong>Tags:</strong> {{ currentTags() }}</div>
+                  }
                 </div>
-                } @if (currentTags()) {
-                <div class="preview-item"><strong>Tags:</strong> {{ currentTags() }}</div>
-                }
               </div>
-            </div>
             }
 
             <!-- Action Buttons -->
             <div class="action-buttons">
               @if (historyService.hasActions() && !isPublished()) {
-              <button (click)="publishPost()" class="btn-publish">🚀 Publish Post</button>
-              } @if (isPublished()) {
-              <div class="published-message">
-                <span class="published-icon">✓</span>
-                <span class="published-text">Post published successfully!</span>
-              </div>
-              } @if (historyService.hasActions()) {
-              <button (click)="clearAll()" class="btn-clear">🗑️ Clear All</button>
+                <button (click)="publishPost()" class="btn-publish">🚀 Publish Post</button>
+              }
+              @if (isPublished()) {
+                <div class="published-message">
+                  <span class="published-icon">✓</span>
+                  <span class="published-text">Post published successfully!</span>
+                </div>
+              }
+              @if (historyService.hasActions()) {
+                <button (click)="clearAll()" class="btn-clear">🗑️ Clear All</button>
               }
             </div>
           </div>
@@ -106,61 +110,63 @@ import { AIAction } from '../models/action.model';
         <div class="history-section">
           <div class="history-card">
             <h2 class="history-title">
-              Action History @if (historyService.hasActions()) {
-              <span class="action-count">{{ actionHistory().length }}</span>
+              Action History
+              @if (historyService.hasActions()) {
+                <span class="action-count">{{ actionHistory().length }}</span>
               }
             </h2>
 
             @if (!historyService.hasActions()) {
-            <div class="empty-state">
-              <span class="empty-icon">📋</span>
-              <p class="empty-text">No actions yet</p>
-              <p class="empty-hint">Use AI buttons to generate content</p>
-            </div>
+              <div class="empty-state">
+                <span class="empty-icon">📋</span>
+                <p class="empty-text">No actions yet</p>
+                <p class="empty-hint">Use AI buttons to generate content</p>
+              </div>
             } @else {
-            <div class="timeline">
-              @for (action of actionHistory(); track action.id; let idx = $index) {
-              <div class="action-item" [class.highlight]="highlightedAction() === action.id">
-                <div class="action-header">
-                  <div class="action-info">
-                    <span class="action-icon">{{ getActionIcon(action.type) }}</span>
-                    <div class="action-details">
-                      <h4 class="action-title">{{ action.title }}</h4>
-                      <p class="action-time">{{ formatTime(action.timestamp) }}</p>
+              <div class="timeline">
+                @for (action of actionHistory(); track action.id; let idx = $index) {
+                  <div class="action-item" [class.highlight]="highlightedAction() === action.id">
+                    <div class="action-header">
+                      <div class="action-info">
+                        <span class="action-icon">{{ getActionIcon(action.type) }}</span>
+                        <div class="action-details">
+                          <h4 class="action-title">{{ action.title }}</h4>
+                          <p class="action-time">{{ formatTime(action.timestamp) }}</p>
+                        </div>
+                      </div>
+                      <button
+                        (click)="undoAction(action.id)"
+                        (mouseenter)="highlightedAction.set(action.id)"
+                        (mouseleave)="highlightedAction.set(null)"
+                        class="undo-btn"
+                        title="Undo this action"
+                      >
+                        ↶
+                      </button>
                     </div>
-                  </div>
-                  <button
-                    (click)="undoAction(action.id)"
-                    (mouseenter)="highlightedAction.set(action.id)"
-                    (mouseleave)="highlightedAction.set(null)"
-                    class="undo-btn"
-                    title="Undo this action"
-                  >
-                    ↶
-                  </button>
-                </div>
 
-                <div class="action-description">{{ action.description }}</div>
+                    <div class="action-description">{{ action.description }}</div>
 
-                <div class="action-changes">
-                  <div class="change-item previous">
-                    <span class="change-label">Before:</span>
-                    <span class="change-value">{{ action.previousValue || '(empty)' }}</span>
-                  </div>
-                  <div class="change-arrow">→</div>
-                  <div class="change-item new">
-                    <span class="change-label">After:</span>
-                    <span class="change-value">{{ action.newValue }}</span>
-                  </div>
-                </div>
+                    <div class="action-changes">
+                      <div class="change-item previous">
+                        <span class="change-label">Before:</span>
+                        <span class="change-value">{{ action.previousValue || '(empty)' }}</span>
+                      </div>
+                      <div class="change-arrow">→</div>
+                      <div class="change-item new">
+                        <span class="change-label">After:</span>
+                        <span class="change-value">{{ action.newValue }}</span>
+                      </div>
+                    </div>
 
-                @if (idx < actionHistory().length - 1) {
-                <div class="action-divider"></div>
+                    @if (idx < actionHistory().length - 1) {
+                      <div class="action-divider"></div>
+                    }
+                  </div>
                 }
               </div>
-              }
-            </div>
-            } @if (historyService.hasActions()) { }
+            }
+            @if (historyService.hasActions()) {}
           </div>
         </div>
       </div>
@@ -641,7 +647,7 @@ export class ActionHistoryDemoComponent {
   protected readonly actionHistory = computed(() => this.historyService.actionHistory());
   protected readonly currentTitle = computed(() => this.historyService.fieldValues()['title']);
   protected readonly currentDescription = computed(
-    () => this.historyService.fieldValues()['description']
+    () => this.historyService.fieldValues()['description'],
   );
   protected readonly currentTags = computed(() => this.historyService.fieldValues()['tags']);
 
@@ -656,7 +662,7 @@ export class ActionHistoryDemoComponent {
       'AI created a new title based on context',
       'title',
       previous,
-      newTitle
+      newTitle,
     );
 
     this.titleInput.set(newTitle);
@@ -672,7 +678,7 @@ export class ActionHistoryDemoComponent {
       'AI added descriptive enhancement',
       'title',
       previous,
-      enhanced
+      enhanced,
     );
 
     this.titleInput.set(enhanced);
@@ -688,7 +694,7 @@ export class ActionHistoryDemoComponent {
       'AI created full description from title',
       'description',
       previous,
-      newDesc
+      newDesc,
     );
 
     this.descriptionInput.set(newDesc);
@@ -706,7 +712,7 @@ export class ActionHistoryDemoComponent {
       'AI added more context and details',
       'description',
       previous,
-      expanded
+      expanded,
     );
 
     this.descriptionInput.set(expanded);
@@ -722,7 +728,7 @@ export class ActionHistoryDemoComponent {
       'AI analyzed content and suggested relevant tags',
       'tags',
       previous,
-      tags
+      tags,
     );
 
     this.tagsInput.set(tags);

@@ -13,79 +13,81 @@ import { NgClass } from '@angular/common';
 
         <div class="action-area">
           @if (!isLoading()) {
-          <button class="generate-btn" (click)="onGenerate()">Generate Content</button>
+            <button class="generate-btn" (click)="onGenerate()">Generate Content</button>
           } @else {
-          <div class="loading-state">
-            <!-- Progress Bar -->
-            <div class="progress-section">
-              <div class="progress-header">
-                <span class="progress-label">Progress</span>
-                <span class="progress-percent">{{ progress() }}%</span>
-              </div>
-              <div class="progress-bar">
-                <div class="progress-fill" [style.width.%]="progress()"></div>
-              </div>
-              <div class="time-remaining">⏱️ Estimated time: {{ formatTime(timeRemaining()) }}</div>
-            </div>
-
-            <!-- Steps Timeline -->
-            <div class="steps-timeline">
-              @for (step of steps(); track step.id) {
-              <div class="step-item" [ngClass]="getStepClass(step)">
-                <div class="step-indicator">
-                  @if (step.status === 'completed') {
-                  <div class="step-icon completed">✓</div>
-                  } @else if (step.status === 'processing') {
-                  <div class="step-icon processing">
-                    <div class="spinner-small"></div>
-                  </div>
-                  } @else {
-                  <div class="step-icon pending">{{ step.id }}</div>
-                  }
+            <div class="loading-state">
+              <!-- Progress Bar -->
+              <div class="progress-section">
+                <div class="progress-header">
+                  <span class="progress-label">Progress</span>
+                  <span class="progress-percent">{{ progress() }}%</span>
                 </div>
-
-                <div class="step-content">
-                  <div class="step-header">
-                    <h4 class="step-title">{{ step.title }}</h4>
-                    @if (step.status === 'processing') {
-                    <span class="step-badge processing">In Progress</span>
-                    } @else if (step.status === 'completed') {
-                    <span class="step-badge completed">Done</span>
-                    }
-                  </div>
-                  <p class="step-description">{{ step.description }}</p>
-
-                  @if (step.status === 'processing' && showDetails()) {
-                  <div class="step-details">
-                    <div class="reasoning-box">
-                      <strong>🧠 Why this step:</strong>
-                      <p>{{ step.reasoning }}</p>
-                    </div>
-                    <div class="technical-box">
-                      <strong>⚙️ Technical:</strong>
-                      <p>{{ step.technicalDetails }}</p>
-                    </div>
-                  </div>
-                  }
+                <div class="progress-bar">
+                  <div class="progress-fill" [style.width.%]="progress()"></div>
+                </div>
+                <div class="time-remaining">
+                  ⏱️ Estimated time: {{ formatTime(timeRemaining()) }}
                 </div>
               </div>
-              }
-            </div>
 
-            <!-- Toggle Details -->
-            <button class="toggle-details" (click)="toggleDetails()">
-              {{ showDetails() ? '👁️ Hide Details' : '🔍 Show Technical Details' }}
-            </button>
-          </div>
+              <!-- Steps Timeline -->
+              <div class="steps-timeline">
+                @for (step of steps(); track step.id) {
+                  <div class="step-item" [ngClass]="getStepClass(step)">
+                    <div class="step-indicator">
+                      @if (step.status === 'completed') {
+                        <div class="step-icon completed">✓</div>
+                      } @else if (step.status === 'processing') {
+                        <div class="step-icon processing">
+                          <div class="spinner-small"></div>
+                        </div>
+                      } @else {
+                        <div class="step-icon pending">{{ step.id }}</div>
+                      }
+                    </div>
+
+                    <div class="step-content">
+                      <div class="step-header">
+                        <h4 class="step-title">{{ step.title }}</h4>
+                        @if (step.status === 'processing') {
+                          <span class="step-badge processing">In Progress</span>
+                        } @else if (step.status === 'completed') {
+                          <span class="step-badge completed">Done</span>
+                        }
+                      </div>
+                      <p class="step-description">{{ step.description }}</p>
+
+                      @if (step.status === 'processing' && showDetails()) {
+                        <div class="step-details">
+                          <div class="reasoning-box">
+                            <strong>🧠 Why this step:</strong>
+                            <p>{{ step.reasoning }}</p>
+                          </div>
+                          <div class="technical-box">
+                            <strong>⚙️ Technical:</strong>
+                            <p>{{ step.technicalDetails }}</p>
+                          </div>
+                        </div>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+
+              <!-- Toggle Details -->
+              <button class="toggle-details" (click)="toggleDetails()">
+                {{ showDetails() ? '👁️ Hide Details' : '🔍 Show Technical Details' }}
+              </button>
+            </div>
           }
         </div>
 
         @if (result()) {
-        <div class="result-box">
-          <div class="result-icon">✅</div>
-          <p class="result-text">{{ result() }}</p>
-          <p class="result-time">Completed in {{ duration() }}ms</p>
-        </div>
+          <div class="result-box">
+            <div class="result-icon">✅</div>
+            <p class="result-text">{{ result() }}</p>
+            <p class="result-time">Completed in {{ duration() }}ms</p>
+          </div>
         }
       </div>
     </div>

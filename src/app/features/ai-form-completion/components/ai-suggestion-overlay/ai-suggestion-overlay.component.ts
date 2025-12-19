@@ -24,48 +24,52 @@ import { NgClass } from '@angular/common';
 
       <!-- Explanation (collapsible) -->
       @if (showExplanation()) {
-      <div class="explanation-box">
-        <p class="text-sm text-gray-700">{{ suggestion().explanation }}</p>
-      </div>
+        <div class="explanation-box">
+          <p class="text-sm text-gray-700">{{ suggestion().explanation }}</p>
+        </div>
       }
 
       <!-- Suggestion Text (view or edit mode) -->
       <div class="suggestion-content">
         @if (isEditing()) {
-        <textarea
-          [(ngModel)]="editedText"
-          class="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-          rows="4"
-          placeholder="Edit the suggestion..."
-        ></textarea>
+          <textarea
+            [(ngModel)]="editedText"
+            class="w-full p-3 border border-blue-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            rows="4"
+            placeholder="Edit the suggestion..."
+          ></textarea>
         } @else {
-        <div class="suggested-text">
-          {{ suggestion().suggestedText }}
-        </div>
+          <div class="suggested-text">
+            {{ suggestion().suggestedText }}
+          </div>
         }
       </div>
 
       <!-- Action Buttons -->
       <div class="action-buttons">
         @if (isEditing()) {
-        <button type="button" class="btn btn-primary" (click)="saveModification()">
-          💾 Save Changes
-        </button>
-        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="saveModification()">
+            💾 Save Changes
+          </button>
+          <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Cancel</button>
         } @else {
-        <button type="button" class="btn btn-success" (click)="acceptSuggestion()">✓ Accept</button>
-        <button type="button" class="btn btn-primary" (click)="startEditing()">✏️ Modify</button>
-        <button type="button" class="btn btn-danger" (click)="rejectSuggestion()">✗ Reject</button>
+          <button type="button" class="btn btn-success" (click)="acceptSuggestion()">
+            ✓ Accept
+          </button>
+          <button type="button" class="btn btn-primary" (click)="startEditing()">✏️ Modify</button>
+          <button type="button" class="btn btn-danger" (click)="rejectSuggestion()">
+            ✗ Reject
+          </button>
         }
       </div>
 
       <!-- Feedback Section -->
       @if (!isEditing()) {
-      <app-feedback-buttons
-        [suggestionId]="suggestion().id"
-        [field]="suggestion().field"
-        (feedbackSubmitted)="onFeedbackSubmitted($event)"
-      />
+        <app-feedback-buttons
+          [suggestionId]="suggestion().id"
+          [field]="suggestion().field"
+          (feedbackSubmitted)="onFeedbackSubmitted($event)"
+        />
       }
     </div>
   `,

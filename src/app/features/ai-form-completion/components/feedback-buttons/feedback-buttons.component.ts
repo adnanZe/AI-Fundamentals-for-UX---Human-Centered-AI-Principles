@@ -48,10 +48,10 @@ import { FeedbackService } from '../../services/feedback.service';
       </div>
 
       @if (hasSubmitted()) {
-      <div class="feedback-message">
-        <span class="success-icon">✓</span>
-        Thank you for your feedback!
-      </div>
+        <div class="feedback-message">
+          <span class="success-icon">✓</span>
+          Thank you for your feedback!
+        </div>
       }
     </div>
   `,

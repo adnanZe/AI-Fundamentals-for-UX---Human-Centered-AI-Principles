@@ -21,7 +21,7 @@ export class FormStateService {
   readonly changeHistory = this.history.asReadonly();
   readonly canUndo = computed(() => {
     const hist = this.history();
-    return hist.some(change => change.source === 'ai');
+    return hist.some((change) => change.source === 'ai');
   });
   readonly lastChange = computed(() => {
     const hist = this.history();

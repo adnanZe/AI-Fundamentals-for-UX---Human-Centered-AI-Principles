@@ -7,7 +7,7 @@ import { Feedback, FeedbackType, FeedbackStats } from '../models/feedback.model'
 export class FeedbackService {
   private readonly feedbacks = signal<Feedback[]>([]);
   private readonly activeFeedback = signal<{ suggestionId: string; type: FeedbackType } | null>(
-    null
+    null,
   );
 
   readonly allFeedbacks = this.feedbacks.asReadonly();

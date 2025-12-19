@@ -37,16 +37,19 @@ type FormField = keyof ProfileFormData;
               (click)="requestSuggestion('name')"
             >
               @if (isLoadingSuggestion() && currentField() === 'name') {
-              <span class="spinner"></span> Loading... } @else { ✨ Get AI Suggestion }
+                <span class="spinner"></span> Loading...
+              } @else {
+                ✨ Get AI Suggestion
+              }
             </button>
           </div>
           @if (currentSuggestion()?.field === 'name') {
-          <app-ai-suggestion-overlay
-            [suggestion]="currentSuggestion()!"
-            (accept)="acceptSuggestion($event)"
-            (modify)="modifySuggestion($event)"
-            (reject)="rejectSuggestion()"
-          />
+            <app-ai-suggestion-overlay
+              [suggestion]="currentSuggestion()!"
+              (accept)="acceptSuggestion($event)"
+              (modify)="modifySuggestion($event)"
+              (reject)="rejectSuggestion()"
+            />
           }
         </div>
 
@@ -72,16 +75,19 @@ type FormField = keyof ProfileFormData;
               (click)="requestSuggestion('role')"
             >
               @if (isLoadingSuggestion() && currentField() === 'role') {
-              <span class="spinner"></span> Loading... } @else { ✨ Get AI Suggestion }
+                <span class="spinner"></span> Loading...
+              } @else {
+                ✨ Get AI Suggestion
+              }
             </button>
           </div>
           @if (currentSuggestion()?.field === 'role') {
-          <app-ai-suggestion-overlay
-            [suggestion]="currentSuggestion()!"
-            (accept)="acceptSuggestion($event)"
-            (modify)="modifySuggestion($event)"
-            (reject)="rejectSuggestion()"
-          />
+            <app-ai-suggestion-overlay
+              [suggestion]="currentSuggestion()!"
+              (accept)="acceptSuggestion($event)"
+              (modify)="modifySuggestion($event)"
+              (reject)="rejectSuggestion()"
+            />
           }
         </div>
 
@@ -105,16 +111,19 @@ type FormField = keyof ProfileFormData;
               (click)="requestSuggestion('bio')"
             >
               @if (isLoadingSuggestion() && currentField() === 'bio') {
-              <span class="spinner"></span> Loading... } @else { ✨ Get AI Suggestion }
+                <span class="spinner"></span> Loading...
+              } @else {
+                ✨ Get AI Suggestion
+              }
             </button>
           </div>
           @if (currentSuggestion()?.field === 'bio') {
-          <app-ai-suggestion-overlay
-            [suggestion]="currentSuggestion()!"
-            (accept)="acceptSuggestion($event)"
-            (modify)="modifySuggestion($event)"
-            (reject)="rejectSuggestion()"
-          />
+            <app-ai-suggestion-overlay
+              [suggestion]="currentSuggestion()!"
+              (accept)="acceptSuggestion($event)"
+              (modify)="modifySuggestion($event)"
+              (reject)="rejectSuggestion()"
+            />
           }
         </div>
 
@@ -138,16 +147,19 @@ type FormField = keyof ProfileFormData;
               (click)="requestSuggestion('hobbies')"
             >
               @if (isLoadingSuggestion() && currentField() === 'hobbies') {
-              <span class="spinner"></span> Loading... } @else { ✨ Get AI Suggestion }
+                <span class="spinner"></span> Loading...
+              } @else {
+                ✨ Get AI Suggestion
+              }
             </button>
           </div>
           @if (currentSuggestion()?.field === 'hobbies') {
-          <app-ai-suggestion-overlay
-            [suggestion]="currentSuggestion()!"
-            (accept)="acceptSuggestion($event)"
-            (modify)="modifySuggestion($event)"
-            (reject)="rejectSuggestion()"
-          />
+            <app-ai-suggestion-overlay
+              [suggestion]="currentSuggestion()!"
+              (accept)="acceptSuggestion($event)"
+              (modify)="modifySuggestion($event)"
+              (reject)="rejectSuggestion()"
+            />
           }
         </div>
 
