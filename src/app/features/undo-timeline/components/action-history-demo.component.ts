@@ -9,181 +9,275 @@ import { AIAction } from '../models/action.model';
   imports: [FormsModule],
   template: `
     <div class="demo-container">
-      <!-- Header -->
-      <div class="header">
-        <h1 class="title">AI Action History + Selective Undo</h1>
-        <p class="subtitle">Track and selectively undo any AI action</p>
-      </div>
-
-      <!-- Main Content -->
-      <div class="demo-content">
-        <!-- Left: Form with AI Actions -->
-        <div class="form-section">
-          <div class="form-card">
-            <h2 class="form-title">Blog Post Editor</h2>
-
-            <!-- Title Field -->
-            <div class="field-group">
-              <label>Title</label>
-              <input
-                type="text"
-                [(ngModel)]="titleInput"
-                placeholder="Enter blog post title..."
-                class="input-field"
-              />
-              <div class="ai-actions">
-                <button (click)="generateTitle()" class="ai-btn">✨ Generate Title</button>
-                <button (click)="enhanceTitle()" class="ai-btn">🎯 Enhance Title</button>
-              </div>
-            </div>
-
-            <!-- Description Field -->
-            <div class="field-group">
-              <label>Description</label>
-              <textarea
-                [(ngModel)]="descriptionInput"
-                rows="4"
-                placeholder="Enter blog post description..."
-                class="textarea-field"
-              ></textarea>
-              <div class="ai-actions">
-                <button (click)="generateDescription()" class="ai-btn">
-                  ✨ Generate Description
-                </button>
-                <button (click)="expandDescription()" class="ai-btn">📝 Expand Content</button>
-              </div>
-            </div>
-
-            <!-- Tags Field -->
-            <div class="field-group">
-              <label>Tags</label>
-              <input
-                type="text"
-                [(ngModel)]="tagsInput"
-                placeholder="Enter tags..."
-                class="input-field"
-              />
-              <div class="ai-actions">
-                <button (click)="suggestTags()" class="ai-btn">🏷️ Suggest Tags</button>
-              </div>
-            </div>
-
-            <!-- Current State Display -->
-            @if (historyService.hasActions()) {
-              <div class="current-state">
-                <h3 class="state-title">Current State</h3>
-                <div class="state-preview">
-                  @if (currentTitle()) {
-                    <div class="preview-item"><strong>Title:</strong> {{ currentTitle() }}</div>
-                  }
-                  @if (currentDescription()) {
-                    <div class="preview-item">
-                      <strong>Description:</strong> {{ currentDescription() }}
-                    </div>
-                  }
-                  @if (currentTags()) {
-                    <div class="preview-item"><strong>Tags:</strong> {{ currentTags() }}</div>
-                  }
-                </div>
-              </div>
-            }
-
-            <!-- Action Buttons -->
-            <div class="action-buttons">
-              @if (historyService.hasActions() && !isPublished()) {
-                <button (click)="publishPost()" class="btn-publish">🚀 Publish Post</button>
-              }
-              @if (isPublished()) {
-                <div class="published-message">
-                  <span class="published-icon">✓</span>
-                  <span class="published-text">Post published successfully!</span>
-                </div>
-              }
-              @if (historyService.hasActions()) {
-                <button (click)="clearAll()" class="btn-clear">🗑️ Clear All</button>
-              }
-            </div>
+      <div class="layout-wrapper">
+        <!-- Sidebar with Feature Info -->
+        <aside class="sidebar">
+          <div class="info-section">
+            <p class="section-subtitle">You can always go back.</p>
+            <ul class="feature-points">
+              <li>Every AI action is tracked in a timeline.</li>
+              <li>Undo individual AI changes without losing everything.</li>
+              <li>Explore safely without fear of breaking things.</li>
+            </ul>
           </div>
-        </div>
+        </aside>
 
-        <!-- Right: Action History Timeline -->
-        <div class="history-section">
-          <div class="history-card">
-            <h2 class="history-title">
-              Action History
-              @if (historyService.hasActions()) {
-                <span class="action-count">{{ actionHistory().length }}</span>
-              }
-            </h2>
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Header -->
 
-            @if (!historyService.hasActions()) {
-              <div class="empty-state">
-                <span class="empty-icon">📋</span>
-                <p class="empty-text">No actions yet</p>
-                <p class="empty-hint">Use AI buttons to generate content</p>
-              </div>
-            } @else {
-              <div class="timeline">
-                @for (action of actionHistory(); track action.id; let idx = $index) {
-                  <div class="action-item" [class.highlight]="highlightedAction() === action.id">
-                    <div class="action-header">
-                      <div class="action-info">
-                        <span class="action-icon">{{ getActionIcon(action.type) }}</span>
-                        <div class="action-details">
-                          <h4 class="action-title">{{ action.title }}</h4>
-                          <p class="action-time">{{ formatTime(action.timestamp) }}</p>
+          <!-- Demo Content -->
+          <div class="demo-content">
+            <!-- Left: Form with AI Actions -->
+            <div class="form-section">
+              <div class="form-card">
+                <h2 class="form-title">Blog Post Editor</h2>
+
+                <!-- Title Field -->
+                <div class="field-group">
+                  <label>Title</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="titleInput"
+                    placeholder="Enter blog post title..."
+                    class="input-field"
+                  />
+                  <div class="ai-actions">
+                    <button (click)="generateTitle()" class="ai-btn">✨ Generate Title</button>
+                    <button (click)="enhanceTitle()" class="ai-btn">🎯 Enhance Title</button>
+                  </div>
+                </div>
+
+                <!-- Description Field -->
+                <div class="field-group">
+                  <label>Description</label>
+                  <textarea
+                    [(ngModel)]="descriptionInput"
+                    rows="4"
+                    placeholder="Enter blog post description..."
+                    class="textarea-field"
+                  ></textarea>
+                  <div class="ai-actions">
+                    <button (click)="generateDescription()" class="ai-btn">
+                      ✨ Generate Description
+                    </button>
+                    <button (click)="expandDescription()" class="ai-btn">📝 Expand Content</button>
+                  </div>
+                </div>
+
+                <!-- Tags Field -->
+                <div class="field-group">
+                  <label>Tags</label>
+                  <input
+                    type="text"
+                    [(ngModel)]="tagsInput"
+                    placeholder="Enter tags..."
+                    class="input-field"
+                  />
+                  <div class="ai-actions">
+                    <button (click)="suggestTags()" class="ai-btn">🏷️ Suggest Tags</button>
+                  </div>
+                </div>
+
+                <!-- Current State Display -->
+                @if (historyService.hasActions()) {
+                  <div class="current-state">
+                    <h3 class="state-title">Current State</h3>
+                    <div class="state-preview">
+                      @if (currentTitle()) {
+                        <div class="preview-item"><strong>Title:</strong> {{ currentTitle() }}</div>
+                      }
+                      @if (currentDescription()) {
+                        <div class="preview-item">
+                          <strong>Description:</strong> {{ currentDescription() }}
                         </div>
-                      </div>
-                      <button
-                        (click)="undoAction(action.id)"
-                        (mouseenter)="highlightedAction.set(action.id)"
-                        (mouseleave)="highlightedAction.set(null)"
-                        class="undo-btn"
-                        title="Undo this action"
+                      }
+                      @if (currentTags()) {
+                        <div class="preview-item"><strong>Tags:</strong> {{ currentTags() }}</div>
+                      }
+                    </div>
+                  </div>
+                }
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                  @if (historyService.hasActions() && !isPublished()) {
+                    <button (click)="publishPost()" class="btn-publish">🚀 Publish Post</button>
+                  }
+                  @if (isPublished()) {
+                    <div class="published-message">
+                      <span class="published-icon">✓</span>
+                      <span class="published-text">Post published successfully!</span>
+                    </div>
+                  }
+                  @if (historyService.hasActions()) {
+                    <button (click)="clearAll()" class="btn-clear">🗑️ Clear All</button>
+                  }
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Action History Timeline -->
+            <div class="history-section">
+              <div class="history-card">
+                <div class="history-header">
+                  <h2 class="history-title">
+                    Action History
+                    @if (historyService.hasActions()) {
+                      <span class="action-count">{{ actionHistory().length }}</span>
+                    }
+                  </h2>
+                  @if (historyService.hasUndoneActions()) {
+                    <button (click)="redo()" class="btn-redo" title="Redo last undone action">
+                      ↷ Redo
+                    </button>
+                  }
+                </div>
+
+                @if (!historyService.hasActions()) {
+                  <div class="empty-state">
+                    <span class="empty-icon">📋</span>
+                    <p class="empty-text">No actions yet</p>
+                    <p class="empty-hint">Use AI buttons to generate content</p>
+                  </div>
+                } @else {
+                  <div class="timeline">
+                    @for (action of actionHistory(); track action.id; let idx = $index) {
+                      <div
+                        class="action-item"
+                        [class.highlight]="highlightedAction() === action.id"
                       >
-                        ↶
-                      </button>
-                    </div>
+                        <div class="action-header">
+                          <div class="action-info">
+                            <span class="action-icon">{{ getActionIcon(action.type) }}</span>
+                            <div class="action-details">
+                              <h4 class="action-title">{{ action.title }}</h4>
+                              <p class="action-time">{{ formatTime(action.timestamp) }}</p>
+                            </div>
+                          </div>
+                          <button
+                            (click)="undoAction(action.id)"
+                            (mouseenter)="highlightedAction.set(action.id)"
+                            (mouseleave)="highlightedAction.set(null)"
+                            class="undo-btn"
+                            title="Undo this action"
+                          >
+                            ↶
+                          </button>
+                        </div>
 
-                    <div class="action-description">{{ action.description }}</div>
+                        <div class="action-description">{{ action.description }}</div>
 
-                    <div class="action-changes">
-                      <div class="change-item previous">
-                        <span class="change-label">Before:</span>
-                        <span class="change-value">{{ action.previousValue || '(empty)' }}</span>
+                        <div class="action-changes">
+                          <div class="change-item previous">
+                            <span class="change-label">Before:</span>
+                            <span class="change-value">{{
+                              action.previousValue || '(empty)'
+                            }}</span>
+                          </div>
+                          <div class="change-arrow">→</div>
+                          <div class="change-item new">
+                            <span class="change-label">After:</span>
+                            <span class="change-value">{{ action.newValue }}</span>
+                          </div>
+                        </div>
+
+                        @if (idx < actionHistory().length - 1) {
+                          <div class="action-divider"></div>
+                        }
                       </div>
-                      <div class="change-arrow">→</div>
-                      <div class="change-item new">
-                        <span class="change-label">After:</span>
-                        <span class="change-value">{{ action.newValue }}</span>
-                      </div>
-                    </div>
-
-                    @if (idx < actionHistory().length - 1) {
-                      <div class="action-divider"></div>
                     }
                   </div>
                 }
+                @if (historyService.hasActions()) {}
               </div>
-            }
-            @if (historyService.hasActions()) {}
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   `,
   styles: [
     `
       .demo-container {
-        min-height: 100vh;
-        padding: 40px 20px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+
+      .layout-wrapper {
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        gap: 32px;
+        align-items: start;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        position: sticky;
+        top: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      .info-section {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #667eea;
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0 0 8px 0;
+      }
+
+      .section-subtitle {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #667eea;
+        margin: 0 0 12px 0;
+        line-height: 1.5;
+      }
+
+      .feature-points {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .feature-points li {
+        padding: 6px 0;
+        padding-left: 20px;
+        position: relative;
+        font-size: 0.85rem;
+        opacity: 0.9;
+        color: #4b5563;
+      }
+
+      .feature-points li::before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        font-weight: bold;
+        color: #10b981;
+      }
+
+      /* Main Content */
+      .main-content {
+        min-width: 0;
       }
 
       .header {
-        max-width: 1400px;
-        margin: 0 auto 40px;
-        text-align: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 40px;
+        border-radius: 16px;
+        margin-bottom: 32px;
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
       }
 
       .back-button {
@@ -205,20 +299,20 @@ import { AIAction } from '../models/action.model';
 
       .title {
         color: white;
-        font-size: 2.5rem;
+        font-size: 2rem;
         font-weight: 700;
         margin: 0 0 12px 0;
+        text-align: center;
       }
 
       .subtitle {
         color: rgba(255, 255, 255, 0.9);
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         margin: 0;
+        text-align: center;
       }
 
       .demo-content {
-        max-width: 1400px;
-        margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 30px;
@@ -245,10 +339,17 @@ import { AIAction } from '../models/action.model';
         font-size: 1.5rem;
         font-weight: 700;
         color: #1f2937;
-        margin: 0 0 24px 0;
+        margin: 0;
         display: flex;
         align-items: center;
         gap: 12px;
+      }
+
+      .history-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 24px;
       }
 
       .action-count {
@@ -451,6 +552,38 @@ import { AIAction } from '../models/action.model';
         background: #dc2626;
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+      }
+
+      .button-group {
+        display: flex;
+        gap: 12px;
+        width: 100%;
+      }
+
+      .btn-redo {
+        padding: 10px 20px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        white-space: nowrap;
+      }
+
+      .btn-redo:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+      }
+
+      .btn-clear {
+        width: 100%;
       }
 
       /* History Section */
@@ -739,6 +872,16 @@ export class ActionHistoryDemoComponent {
     if (!action) return;
 
     this.historyService.undoAction(actionId);
+
+    // Update form inputs
+    const currentValues = this.historyService.fieldValues();
+    this.titleInput.set(currentValues['title'] || '');
+    this.descriptionInput.set(currentValues['description'] || '');
+    this.tagsInput.set(currentValues['tags'] || '');
+  }
+
+  redo(): void {
+    this.historyService.redoAction();
 
     // Update form inputs
     const currentValues = this.historyService.fieldValues();

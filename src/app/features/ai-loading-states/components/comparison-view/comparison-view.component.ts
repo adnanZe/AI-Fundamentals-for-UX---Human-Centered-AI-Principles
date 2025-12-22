@@ -9,53 +9,139 @@ import { TransparentLoadingComponent } from '../transparent-loading/transparent-
   imports: [SimpleLoadingComponent, TransparentLoadingComponent],
   template: `
     <div class="comparison-container">
-      <!-- Comparison Grid -->
-      <div class="comparison-grid">
-        <!-- Simple Loading (Before) -->
-        <app-simple-loading
-          [isLoading]="simpleLoading()"
-          [result]="simpleResult()"
-          [duration]="simpleDuration()"
-          (generate)="startSimpleProcess()"
-        />
+      <div class="layout-wrapper">
+        <!-- Sidebar with Feature Info -->
+        <aside class="sidebar">
+          <div class="info-section">
+            <p class="section-subtitle">AI doesn't need to feel like a black box.</p>
+            <ul class="feature-points">
+              <li>Loading states explain what the AI is doing.</li>
+              <li>Progress is broken into understandable steps.</li>
+              <li>Reduces waiting anxiety and uncertainty.</li>
+            </ul>
+          </div>
+        </aside>
 
-        <!-- Transparent Loading (After) -->
-        <app-transparent-loading
-          [isLoading]="aiService.processing()"
-          [steps]="aiService.stepsState()"
-          [progress]="aiService.progressPercentage()"
-          [timeRemaining]="aiService.timeRemaining()"
-          [result]="transparentResult()"
-          [duration]="transparentDuration()"
-          (generate)="startTransparentProcess()"
-        />
-      </div>
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Comparison Grid -->
+          <div class="comparison-grid">
+            <!-- Simple Loading (Before) -->
+            <app-simple-loading
+              [isLoading]="simpleLoading()"
+              [result]="simpleResult()"
+              [duration]="simpleDuration()"
+              (generate)="startSimpleProcess()"
+            />
 
-      <!-- Comparison Actions -->
-      <div class="comparison-actions">
-        <button
-          class="action-btn primary"
-          [disabled]="simpleLoading() || aiService.processing()"
-          (click)="startBoth()"
-        >
-          🚀 Run Both Simultaneously
-        </button>
-        <button
-          class="action-btn secondary"
-          [disabled]="simpleLoading() || aiService.processing()"
-          (click)="reset()"
-        >
-          🔄 Reset Demo
-        </button>
+            <!-- Transparent Loading (After) -->
+            <app-transparent-loading
+              [isLoading]="aiService.processing()"
+              [steps]="aiService.stepsState()"
+              [progress]="aiService.progressPercentage()"
+              [timeRemaining]="aiService.timeRemaining()"
+              [result]="transparentResult()"
+              [duration]="transparentDuration()"
+              (generate)="startTransparentProcess()"
+            />
+          </div>
+
+          <!-- Comparison Actions -->
+          <div class="comparison-actions">
+            <button
+              class="action-btn primary"
+              [disabled]="simpleLoading() || aiService.processing()"
+              (click)="startBoth()"
+            >
+              🚀 Run Both Simultaneously
+            </button>
+            <button
+              class="action-btn secondary"
+              [disabled]="simpleLoading() || aiService.processing()"
+              (click)="reset()"
+            >
+              🔄 Reset Demo
+            </button>
+          </div>
+        </main>
       </div>
     </div>
   `,
   styles: [
     `
       .comparison-container {
-        max-width: 1400px;
+        max-width: 1600px;
         margin: 0 auto;
         padding: 24px;
+      }
+
+      .layout-wrapper {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 24px;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        position: sticky;
+        top: 24px;
+        height: fit-content;
+      }
+
+      .info-section {
+        background: white;
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border-left: 4px solid #667eea;
+      }
+
+      .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #1f2937;
+        margin: 0 0 12px 0;
+      }
+
+      .section-subtitle {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #667eea;
+        margin: 0 0 16px 0;
+        line-height: 1.5;
+      }
+
+      .feature-points {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .feature-points li {
+        position: relative;
+        padding-left: 24px;
+        margin-bottom: 12px;
+        color: #4b5563;
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+
+      .feature-points li:before {
+        content: '✓';
+        position: absolute;
+        left: 0;
+        color: #10b981;
+        font-weight: 700;
+        font-size: 1.1rem;
+      }
+
+      .feature-points li:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Main Content */
+      .main-content {
+        min-width: 0;
       }
 
       .back-button {

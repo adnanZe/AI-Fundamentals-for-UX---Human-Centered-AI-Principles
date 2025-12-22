@@ -6,6 +6,7 @@ import { AIAction, ActionType } from '../models/action.model';
 })
 export class ActionHistoryService {
   private readonly actions = signal<AIAction[]>([]);
+  private readonly undoneActions = signal<AIAction[]>([]);
   private readonly currentState = signal<Record<string, string>>({
     title: '',
     description: '',
@@ -13,7 +14,9 @@ export class ActionHistoryService {
   });
 
   readonly actionHistory = computed(() => this.actions());
+  readonly undoneHistory = computed(() => this.undoneActions());
   readonly hasActions = computed(() => this.actions().length > 0);
+  readonly hasUndoneActions = computed(() => this.undoneActions().length > 0);
   readonly fieldValues = computed(() => this.currentState());
 
   addAction(
@@ -40,6 +43,9 @@ export class ActionHistoryService {
       ...state,
       [field]: newValue,
     }));
+
+    // Clear redo stack when new action is added
+    this.undoneActions.set([]);
   }
 
   undoAction(actionId: string): void {
@@ -54,18 +60,47 @@ export class ActionHistoryService {
 
     // Remove action and all subsequent actions on the same field
     const actionIndex = this.actions().findIndex((a) => a.id === actionId);
+    const actionsToUndo: AIAction[] = [];
+
     const updatedActions = this.actions().filter((a, index) => {
       if (index < actionIndex) return true;
-      if (index === actionIndex) return false;
+      if (index === actionIndex) {
+        actionsToUndo.push(a);
+        return false;
+      }
       // Remove subsequent actions on same field
-      return a.field !== action.field;
+      if (a.field === action.field) {
+        actionsToUndo.push(a);
+        return false;
+      }
+      return true;
     });
 
     this.actions.set(updatedActions);
+    // Add undone actions to redo stack (in reverse order)
+    this.undoneActions.update((undone) => [...actionsToUndo.reverse(), ...undone]);
+  }
+
+  redoAction(): void {
+    const undoneActionsList = this.undoneActions();
+    if (undoneActionsList.length === 0) return;
+
+    const actionToRedo = undoneActionsList[0];
+
+    // Re-apply the action
+    this.currentState.update((state) => ({
+      ...state,
+      [actionToRedo.field]: actionToRedo.newValue,
+    }));
+
+    // Move action back to actions list
+    this.actions.update((actions) => [...actions, actionToRedo]);
+    this.undoneActions.update((undone) => undone.slice(1));
   }
 
   clear(): void {
     this.actions.set([]);
+    this.undoneActions.set([]);
     this.currentState.set({
       title: '',
       description: '',
