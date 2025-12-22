@@ -31,7 +31,7 @@ jobs:
         run: npm ci
 
       - name: Build
-        run: npm run build -- --base-href=/AI-Fundamentals-for-UX---Human-Centered-AI-Principles/
+        run: npm run build -- --base-href=/AI-Fundamentals-for-UX/
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

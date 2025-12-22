@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "deploy": "ng build --base-href /AI-Foundamentals-for-UX/ && npx angular-cli-ghpages --dir=dist/human-centered-ai-principles/browser"
+    "deploy": "ng build --base-href /AI-Fundamentals-for-UX/ && npx angular-cli-ghpages --dir=dist/human-centered-ai-principles/browser"
   },
   "prettier": {
     "printWidth": 100,
