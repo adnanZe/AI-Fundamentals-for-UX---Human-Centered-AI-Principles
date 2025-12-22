@@ -18,7 +18,6 @@
 - [Development](#development)
 - [Testing](#testing)
 - [Deployment](#deployment)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## 🎯 About
@@ -292,52 +291,9 @@ For other hosting platforms:
 
 2. Deploy the `dist/human-centered-ai-principles/browser/` folder to your hosting service
 
-## 🤝 Contributing
-
-Contributions are welcome! Please follow these guidelines:
-
-1. **Fork the repository**
-2. **Create a feature branch**
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
-3. **Follow the code style guidelines**
-   - Use English for all code and comments
-   - Follow Angular best practices
-   - Use standalone components
-   - Implement signals for state management
-4. **Commit your changes**
-   ```bash
-   git commit -m 'Add amazing feature'
-   ```
-5. **Push to the branch**
-   ```bash
-   git push origin feature/amazing-feature
-   ```
-6. **Open a Pull Request**
-
-### Code Guidelines
-
-- All code must be in **English** (variables, functions, comments, documentation)
-- Use **standalone components** (no NgModules)
-- Prefer **signals** over traditional state management
-- Set `changeDetection: ChangeDetectionStrategy.OnPush`
-- Use `input()` and `output()` functions instead of decorators
-- Use native control flow (`@if`, `@for`, `@switch`)
-
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📧 Contact
-
-For questions or feedback, please open an issue on GitHub.
-
-## 🙏 Acknowledgments
-
-- Angular Team for the amazing framework
-- UX design community for AI best practices
-- All contributors to this project
 
 ## 📚 Additional Resources
 
@@ -347,5 +303,3 @@ For questions or feedback, please open an issue on GitHub.
 - [Google's AI Design Guidelines](https://pair.withgoogle.com/)
 
 ---
-
-**Made with ❤️ for better AI user experiences**
